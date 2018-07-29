@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import awlogo from './accuweatherLogo.png'
 
 
 
@@ -22,7 +23,7 @@ function Table(props){
       <tr key={s.key}>
       <td >{s.DateTime.match(/\d{2}:\d{2}/)}{' key: ' + s.key}</td>
       <td><img src={require("./assets/weather_icons/"+iconPath+"-s.png")} alt='no_img'/></td>
-      <td>Temperature: {s.DewPoint.Value} C</td>
+      <td>Temperature: {s.Temperature.Value} C</td>
       <td>Real Feel Temperature: {s.RealFeelTemperature.Value} C</td>
       </tr>)
   }
@@ -46,7 +47,8 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data: []
+      data: [],
+      place: ''
     }
     this.update = this.update.bind(this)
   }
@@ -80,11 +82,14 @@ update(){
 
   fetch(locUrl)
   .then(function(response){
+    console.log(response); // show place data
+    that.setState({place: response})
     return response.json()
   })
   .then(response => response.Key)
   .then(loc => fetch('https://dataservice.accuweather.com/forecasts/v1/hourly/12hour/' + loc +'?apikey=LrltGW8HIbhBXo6GZsMLJP08tUGdJ3nT&details=true&metric=true'))
     .then(function(response) {
+
     return response.json();
   })
   .then(function(response){
@@ -125,6 +130,9 @@ if ("geolocation" in navigator) {
 {/*        {this.state.data.map((singleData, key) => 
           <Table key={key} data={singleData}
           )}*/}
+          <footer className="App-footer">
+          <img src={awlogo} alt="AccuWeather Logo"/>
+          </footer>
 
       </div>
     );
