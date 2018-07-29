@@ -20,9 +20,10 @@ function Table(props){
 
     rows.push(
       <tr key={s.key}>
-      <td >{s.DateTime}{' key: ' + s.key}</td>
+      <td >{s.DateTime.match(/\d{2}:\d{2}/)}{' key: ' + s.key}</td>
       <td><img src={require("./assets/weather_icons/"+iconPath+"-s.png")} alt='no_img'/></td>
-      <td>{}</td>
+      <td>Temperature: {s.DewPoint.Value} C</td>
+      <td>Real Feel Temperature: {s.RealFeelTemperature.Value} C</td>
       </tr>)
   }
 
