@@ -9,6 +9,7 @@ import awlogo from './accuweatherLogo.png'
 function Table(props){
   //return <div>{JSON.stringify(props)}</div>
   let rows = []
+  // let lastIsDaylight = true;
   
   for(var s of props.data){
     console.log(s)
@@ -18,14 +19,27 @@ function Table(props){
     } else {
       iconPath = s.WeatherIcon
     }
+    let trClass;
+    if(lastIsDaylight === undefined || s.IsDaylight === lastIsDaylight){
+      if(s.IsDaylight){
+        trClass = 'day'
+      } else {
+        trClass = 'night'
+      }
+    } else {
+      trClass = (lastIsDaylight === true) ? 'sunset' : 'sunrise'
+    }
 
+
+ 
     rows.push(
-      <tr key={s.key}>
-      <td >{s.DateTime.match(/\d{2}:\d{2}/)}{' key: ' + s.key}</td>
+      <tr key={s.key} className={trClass}>
+      <td >{s.DateTime.match(/\d{2}:\d{2}/)}</td>
       <td><img src={require("./assets/weather_icons/"+iconPath+"-s.png")} alt='no_img'/></td>
       <td>Temperature: {s.Temperature.Value} C</td>
       <td>Real Feel Temperature: {s.RealFeelTemperature.Value} C</td>
       </tr>)
+    let lastIsDaylight = s.IsDaylight; // What is last IsDaylight value. We ned it to find twylight zone
   }
 
     return (
@@ -131,7 +145,7 @@ if ("geolocation" in navigator) {
           <Table key={key} data={singleData}
           )}*/}
           <footer className="App-footer">
-          <img src={awlogo} alt="AccuWeather Logo"/>
+          <img className="AccuWeather-logo" src={awlogo} alt="AccuWeather Logo"/>
           </footer>
 
       </div>

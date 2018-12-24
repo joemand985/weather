@@ -7,6 +7,10 @@
   height: 80px;
 }
 
+.AccuWeather-logo {
+  width: 120px;
+}
+
 .App-header,
 .App-footer {
   background-color: #222;
@@ -21,6 +25,31 @@
 
 .App-intro {
   font-size: large;
+}
+
+tr.day {
+  background-color: #fff;
+}
+
+tr.night {
+  background-color: #222;
+}
+
+tr.twy {
+  background-color: red;
+}
+
+tr.sunset {
+  background-image: linear-gradient(to bottom, #fff, #222);
+}
+
+tr.sunrise {
+  background-image: linear-gradient(to bottom, #222, #fff);
+}
+
+tr[class="night"]::first-of-type td {
+  color: red;
+  background-color: orange !important;
 }
 
 @keyframes App-logo-spin {
