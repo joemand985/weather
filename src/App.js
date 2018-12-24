@@ -9,6 +9,7 @@ import awlogo from './accuweatherLogo.png'
 function Table(props){
   //return <div>{JSON.stringify(props)}</div>
   let rows = []
+  let lastIsDaylight;
   // let lastIsDaylight = true;
   
   for(var s of props.data){
@@ -29,6 +30,7 @@ function Table(props){
     } else {
       trClass = (lastIsDaylight === true) ? 'sunset' : 'sunrise'
     }
+    console.log(trClass)
 
 
  
@@ -39,7 +41,7 @@ function Table(props){
       <td>Temperature: {s.Temperature.Value} C</td>
       <td>Real Feel Temperature: {s.RealFeelTemperature.Value} C</td>
       </tr>)
-    let lastIsDaylight = s.IsDaylight; // What is last IsDaylight value. We ned it to find twylight zone
+    lastIsDaylight = s.IsDaylight; // What is last IsDaylight value. We ned it to find twylight zone
   }
 
     return (
