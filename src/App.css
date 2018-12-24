@@ -47,10 +47,16 @@ tr.sunrise {
   background-image: linear-gradient(to bottom, #222, #fff);
 }
 
-tr[class="night"]::first-of-type td {
-  color: red;
-  background-color: orange !important;
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
+
+td {
+  border-bottom: 1px solid #ddd;
+}
+
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
