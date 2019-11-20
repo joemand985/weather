@@ -33,16 +33,23 @@ function Table(props){
     console.log(trClass)
 
 
- 
+function showDetails(s){
+  //e.preventDefault();
+  alert(s.Temperature.Value)
+  console.log(s)
+}
     rows.push(
-      <tr key={s.key} className={trClass}>
+      <tr key={s.key} className={trClass} onClick={(e)=>showDetails(s)}>
       <td >{s.DateTime.match(/\d{2}:\d{2}/)}</td>
       <td><img src={require("./assets/weather_icons/"+iconPath+"-s.png")} alt='no_img'/></td>
-      <td>Temperature: {s.Temperature.Value} C</td>
-      <td>Real Feel Temperature: {s.RealFeelTemperature.Value} C</td>
-      </tr>)
+      <td><span className="temperature">{s.Temperature.Value}<sup className="celsius">&nbsp; &#8451;</sup></span></td>
+      <td>Real Feel: {s.RealFeelTemperature.Value} &#8451;</td>
+      <td className="details">Details: {s.Temperature.Value}</td>
+      </tr>
+      )
     lastIsDaylight = s.IsDaylight; // What is last IsDaylight value. We ned it to find twylight zone
-  }
+}
+  
 
     return (
     <table>

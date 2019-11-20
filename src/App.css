@@ -63,3 +63,16 @@ td {
   to { transform: rotate(360deg); }
 }
 
+.temperature {
+  color: orange;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.celsius {
+  font-size: 15px;
+}
+
+.details {
+  display: none;
+}
