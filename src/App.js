@@ -1,68 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import Table from './Table';
 import awlogo from './accuweatherLogo.png'
-
-
-
-function Table(props){
-  //return <div>{JSON.stringify(props)}</div>
-  let rows = []
-  let lastIsDaylight;
-  // let lastIsDaylight = true;
-  
-  for(var s of props.data){
-    console.log(s)
-    let iconPath;
-    if(s.WeatherIcon<10){
-      iconPath = '0'+s.WeatherIcon
-    } else {
-      iconPath = s.WeatherIcon
-    }
-    let trClass;
-    if(lastIsDaylight === undefined || s.IsDaylight === lastIsDaylight){
-      if(s.IsDaylight){
-        trClass = 'day'
-      } else {
-        trClass = 'night'
-      }
-    } else {
-      trClass = (lastIsDaylight === true) ? 'sunset' : 'sunrise'
-    }
-    console.log(trClass)
-
-
-function showDetails(s){
-  //e.preventDefault();
-  alert(s.Temperature.Value)
-  console.log(s)
-}
-    rows.push(
-      <tr key={s.key} className={trClass} onClick={(e)=>showDetails(s)}>
-      <td >{s.DateTime.match(/\d{2}:\d{2}/)}</td>
-      <td><img src={require("./assets/weather_icons/"+iconPath+"-s.png")} alt='no_img'/></td>
-      <td><span className="temperature">{s.Temperature.Value}<sup className="celsius">&nbsp; &#8451;</sup></span></td>
-      <td>Real Feel: {s.RealFeelTemperature.Value} &#8451;</td>
-      <td className="details">Details: {s.Temperature.Value}</td>
-      </tr>
-      )
-    lastIsDaylight = s.IsDaylight; // What is last IsDaylight value. We ned it to find twylight zone
-}
-  
-
-    return (
-    <table>
-    <thead>
-    </thead>
-    <tbody>
-    {rows}
-    </tbody>
-    </table>
-    )
-}
-   
-
 
 
 class App extends Component {
@@ -96,31 +36,31 @@ class App extends Component {
 
 update(){
   const that = this; // save this object before enter the fetch child function
-  console.log('1. we have geolocation')
+  //console.log('1. we have geolocation')
 
   navigator.geolocation.getCurrentPosition(function(position){
 
-  const locUrl = 'https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=LrltGW8HIbhBXo6GZsMLJP08tUGdJ3nT&q='+ position.coords.latitude+'%2C'+ position.coords.longitude;
-   console.log(locUrl) 
+    const locUrl = 'https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=LrltGW8HIbhBXo6GZsMLJP08tUGdJ3nT&q='+ position.coords.latitude+'%2C'+ position.coords.longitude;
+  // console.log(locUrl) 
 
   fetch(locUrl)
   .then(function(response){
-    console.log(response); // show place data
-    that.setState({place: response})
-    return response.json()
-  })
+   // console.log(response); // show place data
+   that.setState({place: response})
+   return response.json()
+ })
   .then(response => response.Key)
   .then(loc => fetch('https://dataservice.accuweather.com/forecasts/v1/hourly/12hour/' + loc +'?apikey=LrltGW8HIbhBXo6GZsMLJP08tUGdJ3nT&details=true&metric=true'))
-    .then(function(response) {
+  .then(function(response) {
 
     return response.json();
   })
   .then(function(response){
 
 // insert key
-  response.map(function(val,index,arr){return val.key = index})
+response.map(function(val,index,arr){return val.key = index})
 
-   that.setState({data: response})
+that.setState({data: response})
 
 
 })
@@ -139,27 +79,20 @@ if ("geolocation" in navigator) {
 }
 }
 
+render() {
+  return (
+    <div className="App">
+    <header className="App-header">
+    <h1 className="App-title">Weather App</h1>
+    </header>
+    <Table data={this.state.data}/>
+    <footer className="App-footer">
+    <img className="AccuWeather-logo" src={awlogo} alt="AccuWeather Logo"/>
+    </footer>
 
-
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Weather App</h1>
-        </header>
-        <Table data={this.state.data}/>
-{/*        {this.state.data.map((singleData, key) => 
-          <Table key={key} data={singleData}
-          )}*/}
-          <footer className="App-footer">
-          <img className="AccuWeather-logo" src={awlogo} alt="AccuWeather Logo"/>
-          </footer>
-
-      </div>
+    </div>
     );
-  }
+}
 }
 
 export default App;
